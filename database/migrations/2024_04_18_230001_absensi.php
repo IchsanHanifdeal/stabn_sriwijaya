@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('pertemuan');
             $table->longText('keterangan')->nullable();
             $table->timestamps();
+            $table->unique(['id_user', 'pertemuan']);
         });
     }
 
@@ -33,6 +34,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('absensi', function (Blueprint $table) {
+            $table->dropUnique(['id_user', 'pertemuan']);
+        });
+
         Schema::dropIfExists('absensi');
     }
 };

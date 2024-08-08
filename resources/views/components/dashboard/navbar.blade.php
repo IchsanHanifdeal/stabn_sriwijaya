@@ -9,20 +9,52 @@
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                 <li>
-                    <a>
+                    <a href="{{ route('dashboard') }}">
                         <x-lucide-gauge class="h-5 w-5 mr-2" />
                         Dashboard
                     </a>
                 </li>
-                <li><a>Pembelajaran</a></li>
-                <li><a>Materi</a></li>
-                <li><a>Mahasiswa</a></li>
-                <li><a>Absensi</a></li>
-                <li><a>Tugas</a></li>
-                <li><a>Nilai</a></li>
+                <li>
+                    <a href="{{ route('pembelajaran') }}">
+                        <x-lucide-book-open class="h-5 w-5 mr-2" />
+                        Pembelajaran
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('materi') }}">
+                        <x-lucide-file-text class="h-5 w-5 mr-2" />
+                        Materi
+                    </a>
+                </li>
+                @if (Auth::user()->role === 'dosen')
+                    <li>
+                        <a href="{{ route('mahasiswa') }}">
+                            <x-lucide-users class="h-5 w-5 mr-2" />
+                            Mahasiswa
+                        </a>
+                    </li>
+                @endif
+                <li>
+                    <a href="{{ route('absensi') }}">
+                        <x-lucide-calendar class="h-5 w-5 mr-2" />
+                        Absensi
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('tugas') }}">
+                        <x-lucide-clipboard class="h-5 w-5 mr-2" />
+                        Tugas
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('nilai') }}">
+                        <x-lucide-award class="h-5 w-5 mr-2" />
+                        Nilai
+                    </a>
+                </li>
             </ul>
         </div>
-        <a class="btn btn-ghost text-xl uppercase">{{ config('app.name') }}</a>
+        <a class="btn btn-ghost text-xl uppercase" href="{{ route('dashboard') }}">{{ config('app.name') }}</a>
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
@@ -33,37 +65,39 @@
                 </a>
             </li>
             <li>
-                <a class="{!! preg_match('#^dashboard/pembelajaran.*#', Request::path()) ? 'active' : '' !!}">
+                <a class="{!! preg_match('#^dashboard/pembelajaran.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('pembelajaran') }}">
                     <x-lucide-book-open class="h-5 w-5 mr-2" />
                     Pembelajaran
                 </a>
             </li>
             <li>
-                <a class="{!! preg_match('#^dashboard/materi.*#', Request::path()) ? 'active' : '' !!}">
+                <a class="{!! preg_match('#^dashboard/materi.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('materi') }}">
                     <x-lucide-file-text class="h-5 w-5 mr-2" />
                     Materi
                 </a>
             </li>
+            @if (Auth::user()->role === 'dosen')
+                <li>
+                    <a class="{!! preg_match('#^dashboard/mahasiswa.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('mahasiswa') }}">
+                        <x-lucide-users class="h-5 w-5 mr-2" />
+                        Mahasiswa
+                    </a>
+                </li>
+            @endif
             <li>
-                <a class="{!! preg_match('#^dashboard/mahasiswa.*#', Request::path()) ? 'active' : '' !!}">
-                    <x-lucide-users class="h-5 w-5 mr-2" />
-                    Mahasiswa
-                </a>
-            </li>
-            <li>
-                <a class="{!! preg_match('#^dashboard/absensi.*#', Request::path()) ? 'active' : '' !!}">
+                <a class="{!! preg_match('#^dashboard/absensi.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('absensi') }}">
                     <x-lucide-calendar class="h-5 w-5 mr-2" />
                     Absensi
                 </a>
             </li>
             <li>
-                <a class="{!! preg_match('#^dashboard/tugas.*#', Request::path()) ? 'active' : '' !!}">
+                <a class="{!! preg_match('#^dashboard/tugas.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('tugas') }}">
                     <x-lucide-clipboard class="h-5 w-5 mr-2" />
                     Tugas
                 </a>
             </li>
             <li>
-                <a class="{!! preg_match('#^dashboard/nilai.*#', Request::path()) ? 'active' : '' !!}">
+                <a class="{!! preg_match('#^dashboard/nilai.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('nilai') }}">
                     <x-lucide-award class="h-5 w-5 mr-2" />
                     Nilai
                 </a>
@@ -74,7 +108,8 @@
         <!-- Dropdown User -->
         <div class="dropdown dropdown-end">
             <div tabindex="0" class="flex items-center btn btn-ghost">
-                <img class="w-8 h-8 rounded-full border border-gray-400" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}" alt="User Avatar">
+                <img class="w-8 h-8 rounded-full border border-gray-400"
+                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}" alt="User Avatar">
                 <span class="ml-2">{{ Auth::user()->name }}</span>
             </div>
             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-2">
@@ -84,12 +119,14 @@
                         Profile
                     </a>
                 </li>
-                <li>
-                    <a href="#" class="flex items-center">
-                        <x-lucide-settings class="h-5 w-5 mr-2" />
-                        Settings
-                    </a>
-                </li>
+                @if (Auth::user()->role === 'dosen')
+                    <li>
+                        <a href="{{ route('setting') }}" class="{!! preg_match('#^dashboard/setting.*#', Request::path()) ? 'active' : '' !!} flex items-center">
+                            <x-lucide-settings class="h-5 w-5 mr-2" />
+                            Settings
+                        </a>
+                    </li>
+                @endif
                 <li>
                     <form method="POST" action="{{ route('logout') }}" class="flex items-center">
                         @csrf

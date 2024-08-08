@@ -1,0 +1,1 @@
+<x-dashboard.main title="Setting"></x-dashboard.main>

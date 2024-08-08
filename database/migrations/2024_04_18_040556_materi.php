@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('materi', function (Blueprint $table) {
             $table->id('id_materi');
             $table->enum('tipe_materi', ['gambar', 'dokumen', 'video']);
-            $table->string('file_materi');
+            $table->string('file_materi')->nullable();
             $table->string('pertemuan');
             $table->string('judul_materi');
             $table->string('deskripsi');

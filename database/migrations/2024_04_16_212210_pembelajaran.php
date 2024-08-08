@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('silabus', function (Blueprint $table) {
             $table->id('id_silabus');
-            $table->string('file_silabus');
+            $table->string('file_silabus')->nullable();
             $table->enum('tipe_file', ['gambar', 'dokumen', 'video']);
             $table->string('nama_silabus');
             $table->string('deskripsi');

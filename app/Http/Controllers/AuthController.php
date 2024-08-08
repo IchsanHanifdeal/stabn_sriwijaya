@@ -62,12 +62,18 @@ class AuthController extends Controller
                 'nama' => 'required|string|max:255',
                 'username' => 'required|string|max:255|unique:users',
                 'email' => 'required|string|email|max:255|unique:users',
+                'tempat_lahir' => 'required',
+                'tanggal_lahir' => 'required',
+                'alamat' => 'required',
+                'no_hp' => 'required|unique:mahasiswa',
                 'jurusan' => 'required',
+                'jenis_kelamin' => 'required',
                 'password' => 'required|string|min:8',
             ], [
                 'nim.unique' => 'NIM sudah digunakan, silakan gunakan NIM lain.',
                 'username.unique' => 'Username sudah digunakan, silakan pilih username lain.',
                 'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
+                'no_hp.unique' => 'No Handphone sudah digunakan, silakan gunakan no handphone lain.',
                 'password.min' => 'Password minimal 8 Karakter.',
             ]);
 
@@ -96,6 +102,11 @@ class AuthController extends Controller
                 'nim' => $request->nim,
                 'name' => $request->nama,
                 'username' => $request->username,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'alamat' => $request->alamat,
+                'no_hp' => $request->no_hp,
+                'jenis_kelamin' => $request->jenis_kelamin,
                 'email' => $request->email,
             ]);
 

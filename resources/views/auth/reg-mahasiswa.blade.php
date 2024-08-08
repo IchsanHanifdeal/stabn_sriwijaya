@@ -20,6 +20,26 @@
             'label' => 'Email',
             'placeholder' => 'Masukan email...',
         ],
+        'tempat_lahir' => [
+            'type' => 'text',
+            'label' => 'Tempat Lahir',
+            'placeholder' => 'Masukan tempat lahir...',
+        ],
+        'tanggal_lahir' => [
+            'type' => 'date',
+            'label' => 'Tanggal Lahir',
+            'placeholder' => 'Masukan tanggal lahir...',
+        ],
+        'alamat' => [
+            'type' => 'text',
+            'label' => 'Alamat',
+            'placeholder' => 'Masukan alamat...',
+        ],
+        'no_hp' => [
+            'type' => 'number',
+            'label' => 'No Handphone',
+            'placeholder' => 'Masukan Nomor Hp...',
+        ],
     ];
 @endphp
 
@@ -38,35 +58,57 @@
                 </h1>
                 <form class="space-y-4 md:space-y-6" method="POST" action="{{ route('store.mahasiswa') }}">
                     @csrf
-                    @foreach ($fields as $field => $attributes)
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach ($fields as $field => $attributes)
+                            <div>
+                                <label for="{{ $field }}"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ $attributes['label'] }}
+                                    :</label>
+                                <input type="{{ $attributes['type'] }}" name="{{ $field }}"
+                                    id="{{ $field }}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="{{ $attributes['placeholder'] }}" value="{{ old($field) }}" required>
+                                @error($field)
+                                    <span class="validated text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="{{ $field }}"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ $attributes['label'] }}
-                                :</label>
-                            <input type="{{ $attributes['type'] }}" name="{{ $field }}" id="{{ $field }}"
+                            <label for="major"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan :</label>
+                            <select
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="{{ $attributes['placeholder'] }}" value="{{ old($field) }}" required>
-                            @error($field)
+                                id="major" name="jurusan" required>
+                                <option value="">--- Pilih Jurusan ---</option>
+                                @foreach ($jurusan as $item)
+                                    <option value="{{ $item->id_jurusan }}"
+                                        @if (old('jurusan') == $item->id_jurusan) selected @endif>{{ $item->nama_jurusan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('jurusan')
                                 <span class="validated text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
-                    @endforeach
-                    <div>
-                        <label for="major"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan :</label>
-                        <select
-                            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            id="major" name="jurusan" required>
-                            <option value="">--- Pilih Jurusan ---</option>
-                            @foreach ($jurusan as $item)
-                                <option value="{{ $item->id_jurusan }}"
-                                    @if (old('jurusan') == $item->id_jurusan) selected @endif>{{ $item->nama_jurusan }}
+                        <div>
+                            <label for="jenis_kelamin"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Kelamin
+                                :</label>
+                            <select
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                id="major" name="jenis_kelamin" required>
+                                <option value="">--- Pilih Jenis Kelamin ---</option>
+                                <option value="L" @if (old('jenis_kelamin') == 'L') selected @endif>Laki-laki
                                 </option>
-                            @endforeach
-                        </select>
-                        @error('jurusan')
-                            <span class="validated text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+                                <option value="P" @if (old('jenis_kelamin') == 'P') selected @endif>Perempuan
+                                </option>
+                            </select>
+                            @error('jenis_kelamin')
+                                <span class="validated text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                     <div>
                         <label for="password"
