@@ -74,8 +74,16 @@
                             <div>
                                 <h1 class="opacity-50 text-sm font-semibold">#Pertemuan {{ $data->pertemuan }}</h1>
                                 <h1 class="font-semibold text-sm sm:text-[15px] hover:underline cursor-pointer">
-                                    {{ $jenis === 'materi' ? $data->judul_materi : ucfirst($data->{'nama_' . ($jenis === 'pembelajaran' ? 'silabus' : $jenis)}) }}
-                                </h1>
+                                    @if ($jenis === 'materi')
+                                        {{ $data->judul_materi }}
+                                    @elseif ($jenis === 'pembelajaran')
+                                        {{ ucfirst($data->nama_silabus) }}
+                                    @elseif ($jenis === 'tugas')
+                                        {{ $data->judul_tugas }}
+                                    @else
+                                        {{ ucfirst($data->{'nama_' . $jenis}) }}
+                                    @endif
+                                </h1>                                
                             </div>
                         </div>
                     @empty

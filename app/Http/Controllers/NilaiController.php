@@ -54,8 +54,9 @@ class NilaiController extends Controller
         });
 
         $nilai_tertinggi = $rekap_nilai->max('nilai_akhir');
-        $peroleh_nilai_tertinggi = $rekap_nilai->firstWhere('nilai_akhir', $nilai_tertinggi)->first();
+        $peroleh_nilai_tertinggi = $rekap_nilai->firstWhere('nilai_akhir', $nilai_tertinggi);
 
+        // Calculate the average of the highest value
         $rata_rata_tertinggi = $rekap_nilai->filter(function ($item) use ($nilai_tertinggi) {
             return $item->nilai_akhir == $nilai_tertinggi;
         })->avg('nilai_akhir');
