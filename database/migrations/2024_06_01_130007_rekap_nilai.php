@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id('id_rekap_nilai');
             $table->unsignedBigInteger('id_mahasiswa');
             $table->foreign('id_mahasiswa')->references('id_mahasiswa')->on('mahasiswa')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('id_matakuliah');
+            $table->foreign('id_matakuliah')->references('id_matakuliah')->on('mata_kuliah')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('nilai_kuis')->nullable();
+            $table->integer('nilai_tugas')->nullable();
             $table->integer('nilai_uts')->nullable();
             $table->integer('nilai_uas')->nullable();
             $table->timestamps();

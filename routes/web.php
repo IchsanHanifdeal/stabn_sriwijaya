@@ -41,10 +41,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         $today = Carbon::today();
 
-       $silabus = silabus::whereDate('created_at', $today)->get();
-       $materi = Materi::whereDate('created_at', $today)->get();
-       $tugas = Tugas::whereDate('created_at', $today)->get();
-       
+        $silabus = silabus::whereDate('created_at', $today)->get();
+        $materi = Materi::whereDate('created_at', $today)->get();
+        $tugas = Tugas::whereDate('created_at', $today)->get();
+
         return view('dashboard.index', [
             'jumlah_mahasiswa' => Mahasiswa::count(),
             'jumlah_pembelajaran' => Silabus::count(),
@@ -57,8 +57,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/dashboard/profile/update', [ProfileController::class, 'update'])->name('update.profile');
-    Route::post('/dashboard/profile/update/password', [ProfileController::class, 'update_password'])->name('update.password');
+    Route::put('/dashboard/profile/{id_user}/update', [ProfileController::class, 'update'])->name('update.profile');
+    Route::put('/dashboard/profile/{id_user}/update/password', [ProfileController::class, 'update_password'])->name('update.password');
 
     Route::get('/dashboard/pembelajaran', [PembelajaranController::class, 'index'])->name('pembelajaran');
     Route::post('/dashboard/pembelajaran', [PembelajaranController::class, 'store'])->name('store.pembelajaran');
@@ -83,13 +83,24 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard/tugas/store', [TugasController::class, 'store'])->name('store.tugas');
     Route::put('/dashboard/tugas/{id_tugas}/update', [TugasController::class, 'update'])->name('update.tugas');
     Route::delete('/dashboard/tugas/{id_tugas}/destroy', [TugasController::class, 'destroy'])->name('hapus.tugas');
-    
+
     Route::post('/dashboard/tugas/{id_tugas}/kumpul', [TugasController::class, 'kumpul'])->name('kumpul_tugas');
     Route::delete('/dashboard/tugas/{id_tugas}/kumpul/{id_mahasiswa}/hapus', [TugasController::class, 'hapus_nilai'])->name('hapus_nilai');
     Route::put('/dashboard/tugas/nilai/{id_nilai}/store', [NilaiController::class, 'store'])->name('nilai.store');
     Route::put('/dashboard/tugas/nilai/{id_nilai}/update', [NilaiController::class, 'update'])->name('nilai.update');
 
     Route::get('/dashboard/nilai', [NilaiController::class, 'index'])->name('nilai');
+    Route::post('/dashboard/nilai/store', [NilaiController::class, 'store'])->name('store.rekap');
+    Route::put('/dashboard/nilai/{id_rekap_nilai}/update', [NilaiController::class, 'update_rekap'])->name('update.rekap');
+    Route::delete('/dashboard/nilai/{id_rekap_nilai}/hapus', [NilaiController::class, 'destroy'])->name('destroy.rekap');
 
     Route::get('/dashboard/setting', [SettingController::class, 'index'])->name('setting');
+
+    Route::post('/dashboard/setting/jurusan', [SettingController::class, 'storeJurusan'])->name('jurusan.store');
+    Route::put('/dashboard/setting/jurusan/{id}', [SettingController::class, 'updateJurusan'])->name('jurusan.update');
+    Route::delete('/dashboard/setting/jurusan/{id}/delete', [SettingController::class, 'destroyJurusan'])->name('jurusan.destroy');
+    
+    Route::post('/dashboard/setting/mata_kuliah', [SettingController::class, 'storeMataKuliah'])->name('mata_kuliah.store');
+    Route::put('/dashboard/setting/mata_kuliah/{id}', [SettingController::class, 'updateMataKuliah'])->name('mata_kuliah.update');
+    Route::delete('/dashboard/setting/mata_kuliah/{id}/delete', [SettingController::class, 'destroyMataKuliah'])->name('mata_kuliah.destroy');
 });
