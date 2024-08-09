@@ -7,6 +7,7 @@ use App\Models\Absensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AbsensiController extends Controller
 {
@@ -163,8 +164,22 @@ class AbsensiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id_absensi)
     {
-        //
+        $absensi = Absensi::findOrFail($id_absensi);
+
+        if ($absensi->foto) {
+            $filePath = 'public/absensi/' . $absensi->foto;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        }
+
+        $absensi->delete();
+
+        return redirect()->back()->with('toast', [
+            'message' => 'Absensi berhasil dihapus!',
+            'type' => 'success'
+        ]);
     }
 }

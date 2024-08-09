@@ -15,10 +15,16 @@ class Tugas extends Model
         'judul_tugas',
         'deskripsi',
         'lampiran_tugas',
+        'pertemuan',
     ];
 
     public function matakuliah()
     {
         return $this->belongsTo(MataKuliah::class, 'id_matakuliah');
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class, 'id_tugas', 'id_tugas');
     }
 }

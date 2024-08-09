@@ -77,8 +77,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard/absensi/store', [AbsensiController::class, 'store'])->name('store.absensi');
     Route::put('/dashboard/absensi/{id_absensi}/terima', [AbsensiController::class, 'terima'])->name('terima_absensi');
     Route::put('/dashboard/absensi/{id_absensi}/tolak', [AbsensiController::class, 'tolak'])->name('tolak_absensi');
+    Route::delete('/dashboard/absensi/{id_absensi}/hapus', [AbsensiController::class, 'destroy'])->name('delete.absensi');
 
     Route::get('/dashboard/tugas', [TugasController::class, 'index'])->name('tugas');
+    Route::post('/dashboard/tugas/store', [TugasController::class, 'store'])->name('store.tugas');
+    Route::put('/dashboard/tugas/{id_tugas}/update', [TugasController::class, 'update'])->name('update.tugas');
+    Route::delete('/dashboard/tugas/{id_tugas}/destroy', [TugasController::class, 'destroy'])->name('hapus.tugas');
+    
+    Route::post('/dashboard/tugas/{id_tugas}/kumpul', [TugasController::class, 'kumpul'])->name('kumpul_tugas');
+    Route::delete('/dashboard/tugas/{id_tugas}/kumpul/{id_mahasiswa}/hapus', [TugasController::class, 'hapus_nilai'])->name('hapus_nilai');
+    Route::put('/dashboard/tugas/nilai/{id_nilai}/store', [NilaiController::class, 'store'])->name('nilai.store');
+    Route::put('/dashboard/tugas/nilai/{id_nilai}/update', [NilaiController::class, 'update'])->name('nilai.update');
 
     Route::get('/dashboard/nilai', [NilaiController::class, 'index'])->name('nilai');
 

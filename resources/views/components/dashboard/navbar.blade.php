@@ -9,45 +9,45 @@
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                 <li>
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('dashboard') }}" class="{!! Request::path() == 'dashboard' ? 'active' : '' !!}">
                         <x-lucide-gauge class="h-5 w-5 mr-2" />
                         Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('pembelajaran') }}">
+                    <a href="{{ route('pembelajaran') }}" class="{!! preg_match('#^dashboard/pembelajaran.*#', Request::path()) ? 'active' : '' !!}">
                         <x-lucide-book-open class="h-5 w-5 mr-2" />
                         Pembelajaran
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('materi') }}">
+                    <a href="{{ route('materi') }}" class="{!! preg_match('#^dashboard/materi.*#', Request::path()) ? 'active' : '' !!}">
                         <x-lucide-file-text class="h-5 w-5 mr-2" />
                         Materi
                     </a>
                 </li>
                 @if (Auth::user()->role === 'dosen')
                     <li>
-                        <a href="{{ route('mahasiswa') }}">
+                        <a href="{{ route('mahasiswa') }}" class="{!! preg_match('#^dashboard/mahasiswa.*#', Request::path()) ? 'active' : '' !!}">
                             <x-lucide-users class="h-5 w-5 mr-2" />
                             Mahasiswa
                         </a>
                     </li>
                 @endif
                 <li>
-                    <a href="{{ route('absensi') }}">
+                    <a href="{{ route('absensi') }}" class="{!! preg_match('#^dashboard/absensi.*#', Request::path()) ? 'active' : '' !!}">
                         <x-lucide-calendar class="h-5 w-5 mr-2" />
                         Absensi
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('tugas') }}">
+                    <a href="{{ route('tugas') }}" class="{!! preg_match('#^dashboard/tugas.*#', Request::path()) ? 'active' : '' !!}">
                         <x-lucide-clipboard class="h-5 w-5 mr-2" />
                         Tugas
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('nilai') }}">
+                    <a href="{{ route('nilai') }}" class="{!! preg_match('#^dashboard/nilai.*#', Request::path()) ? 'active' : '' !!}">
                         <x-lucide-award class="h-5 w-5 mr-2" />
                         Nilai
                     </a>

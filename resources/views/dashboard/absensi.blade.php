@@ -69,10 +69,9 @@
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="flex flex-col sm:flex-row items-center gap-4 p-4">
                         <form method="GET" action="{{ route('absensi') }}" class="flex items-center gap-4 w-full">
-                            <input type="date" id="date" name="tanggal" value="{{ $date }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-3 shadow-sm transition duration-300 ease-in-out">
+                            <input type="date" name="tanggal" class="input input-sm shadow-md w-full bg-zinc-100">
                             <button type="submit"
-                                class="btn btn-primary rounded-lg shadow-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition duration-300 ease-in-out">
+                                class="btn btn-accent rounded-lg shadow-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition duration-300 ease-in-out">
                                 Tampilkan
                             </button>
                         </form>
@@ -203,6 +202,36 @@
                                                 </dialog>
                                             @endif
                                         </td>
+                                        <td>
+                                            <x-lucide-trash class="size-5 hover:stroke-red-500 cursor-pointer"
+                                                onclick="document.getElementById('delete_modal_{{ $item->id_absensi }}').showModal();" />
+                                            <dialog id="delete_modal_{{ $item->id_absensi }}"
+                                                class="modal modal-bottom sm:modal-middle">
+                                                <div class="modal-box bg-neutral text-white">
+                                                    <h3 class="text-lg font-bold">Hapus Absensi {{ $item->id_absensi }}
+                                                    </h3>
+                                                    <div class="mt-3">
+                                                        <p>Apakah Anda yakin ingin menghapus dengan nama
+                                                            <strong class="text-red-700">{{ $item->user->name }} -
+                                                                Pertemuan {{ $item->pertemuan }}?</strong>.
+                                                            <strong>Tindakan ini tidak dapat diurungkan!.</strong>
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-action">
+                                                        <button type="button"
+                                                            onclick="document.getElementById('delete_modal_{{ $item->id_absensi }}').close()"
+                                                            class="btn">Batal</button>
+                                                        <form action="{{ route('delete.absensi', $item->id_absensi) }}"
+                                                            method="POST" class="inline-block">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-danger">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </dialog>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -264,10 +293,10 @@
                                         <td class="font-semibold uppercase">
                                             <label for="dokumentasi_modal_{{ $item->id_absensi }}"
                                                 class="w-full btn btn-accent">Lihat</label>
-                                                @php
+                                            @php
                                                 $status = ucfirst($item->status);
                                                 $labelClass = '';
-    
+
                                                 switch ($status) {
                                                     case 'Hadir':
                                                         $labelClass =
@@ -288,14 +317,14 @@
                                                         break;
                                                 }
                                             @endphp
-                                            <td class="font-semibold uppercase">
-                                                <span class="{{ $labelClass }}">{{ $status }}</span>
-                                            </td>
-                                            <td class="font-semibold uppercase">
-                                                <span
-                                                    class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ $item->keterangan ?? 'Tidak ada keterangan' }}</span>
-                                            </td>
-                                            <td class="font-semibold uppercase">Pertemuan {{ $item->pertemuan }}</td>
+                                        <td class="font-semibold uppercase">
+                                            <span class="{{ $labelClass }}">{{ $status }}</span>
+                                        </td>
+                                        <td class="font-semibold uppercase">
+                                            <span
+                                                class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ $item->keterangan ?? 'Tidak ada keterangan' }}</span>
+                                        </td>
+                                        <td class="font-semibold uppercase">Pertemuan {{ $item->pertemuan }}</td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -470,7 +499,8 @@
                 document.getElementById('lokasi_modal_{{ $item->id_absensi }}').addEventListener('change',
                     function() {
                         if (this.checked) {
-                            var map = L.map('map_{{ $item->id_absensi }}').setView([{{ $item->latitude }},
+                            var map = L.map('map_{{ $item->id_absensi }}').setView([
+                                {{ $item->latitude }},
                                 {{ $item->longitude }}
                             ], 13);
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

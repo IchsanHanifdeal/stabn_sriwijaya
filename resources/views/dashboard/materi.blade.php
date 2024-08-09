@@ -253,8 +253,6 @@
                                                     </div>
                                                 </dialog>
                                             @endif
-
-
                                         </td>
                                     </tr>
                                 @empty

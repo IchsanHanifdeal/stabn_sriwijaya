@@ -17,6 +17,7 @@ return new class extends Migration
             $table -> foreign('id_matakuliah')->references('id_matakuliah')->on('mata_kuliah')->onDelete('cascade');
             $table -> string('judul_tugas');
             $table -> string('deskripsi');
+            $table -> string('pertemuan');
             $table -> string('lampiran_tugas')->nullable();
             $table -> timestamps();
         });
