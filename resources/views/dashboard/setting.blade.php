@@ -39,7 +39,7 @@
             </div>
         @endforeach
     </div>
-    <div class="flex gap-5">
+    <div class="grid sm:grid-cols-1 xl:grid-cols-2 flex gap-5">
         @foreach (['jurusan', 'mata_kuliah'] as $item)
             <div class="flex flex-col border-back rounded-xl w-full">
                 <div class="p-5 sm:p-7 bg-white rounded-t-xl">
