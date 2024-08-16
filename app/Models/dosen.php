@@ -22,4 +22,9 @@ class dosen extends Model
         'username',
         'email',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
 }

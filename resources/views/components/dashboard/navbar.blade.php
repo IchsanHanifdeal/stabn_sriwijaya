@@ -26,13 +26,21 @@
                         Materi
                     </a>
                 </li>
-                @if (Auth::user()->role === 'dosen')
+                @if (Auth::user()->role === 'dosen' || Auth::user()->role === 'admin')
                     <li>
                         <a href="{{ route('mahasiswa') }}" class="{!! preg_match('#^dashboard/mahasiswa.*#', Request::path()) ? 'active' : '' !!}">
                             <x-lucide-users class="h-5 w-5 mr-2" />
                             Mahasiswa
                         </a>
                     </li>
+                    @if (Auth::user()->role === 'admin')
+                        <li>
+                            <a class="{!! preg_match('#^dashboard/dosen.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('dosen') }}">
+                                <x-lucide-graduation-cap class="h-5 w-5 mr-2" />
+                                Dosen
+                            </a>
+                        </li>
+                    @endif
                 @endif
                 <li>
                     <a href="{{ route('absensi') }}" class="{!! preg_match('#^dashboard/absensi.*#', Request::path()) ? 'active' : '' !!}">
@@ -76,11 +84,19 @@
                     Materi
                 </a>
             </li>
-            @if (Auth::user()->role === 'dosen')
+            @if (Auth::user()->role === 'dosen' || Auth::user()->role === 'admin')
                 <li>
                     <a class="{!! preg_match('#^dashboard/mahasiswa.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('mahasiswa') }}">
                         <x-lucide-users class="h-5 w-5 mr-2" />
                         Mahasiswa
+                    </a>
+                </li>
+            @endif
+            @if (Auth::user()->role === 'admin')
+                <li>
+                    <a class="{!! preg_match('#^dashboard/dosen.*#', Request::path()) ? 'active' : '' !!}" href="{{ route('dosen') }}">
+                        <x-lucide-graduation-cap class="h-5 w-5 mr-2" />
+                        Dosen
                     </a>
                 </li>
             @endif

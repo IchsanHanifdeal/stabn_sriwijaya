@@ -225,7 +225,7 @@ class AuthController extends Controller
             ]);
 
 
-            if ($userRole === 'dosen' || $userRole === 'mahasiswa') {
+            if ($userRole === 'dosen' || $userRole === 'mahasiswa' || $userRole === 'admin') {
                 return redirect()->intended('dashboard')->with('toast', [
                     'message' => 'Login berhasil!',
                     'type' => 'success'

@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['dosen', 'mahasiswa'])->default('mahasiswa');
-            $table->rememberToken();
+            $table->enum('validasi', ['menunggu validasi', 'diterima', 'ditolak'])->default('menunggu validasi');
+            $table->enum('role', ['dosen', 'mahasiswa', 'admin'])->default('mahasiswa');
             $table->timestamps();
         });
     }

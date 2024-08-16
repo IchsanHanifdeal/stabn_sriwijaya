@@ -8,6 +8,7 @@ use App\Models\Silabus;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\MateriController;
@@ -71,7 +72,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/dashboard/materi/{id_materi}/delete', [materiController::class, 'destroy'])->name('delete.materi');
 
     Route::get('/dashboard/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+    Route::put('/dashboard/mahasiswa/{id_user}/terima', [MahasiswaController::class, 'terima'])->name('terima_mahasiswa');
+    Route::put('/dashboard/mahasiswa/{id_user}/tolak', [MahasiswaController::class, 'tolak'])->name('tolak_mahasiswa');
     Route::delete('/dashboard/mahasiswa/{id_user}', [MahasiswaController::class, 'destroy'])->name('destroy.mahasiswa');
+
+    Route::get('/dashboard/dosen', [DosenController::class, 'index'])->name('dosen');
+    Route::put('/dashboard/dosen/{id_user}/terima', [DosenController::class, 'terima'])->name('terima_dosen');
+    Route::put('/dashboard/dosen/{id_user}/tolak', [DosenController::class, 'tolak'])->name('tolak_dosen');
+    Route::delete('/dashboard/dosen/{id_user}', [DosenController::class, 'destroy'])->name('destroy.dosen');
 
     Route::get('/dashboard/absensi', [AbsensiController::class, 'index'])->name('absensi');
     Route::post('/dashboard/absensi/store', [AbsensiController::class, 'store'])->name('store.absensi');
@@ -96,10 +104,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard/setting', [SettingController::class, 'index'])->name('setting');
 
+
     Route::post('/dashboard/setting/jurusan', [SettingController::class, 'storeJurusan'])->name('jurusan.store');
     Route::put('/dashboard/setting/jurusan/{id}', [SettingController::class, 'updateJurusan'])->name('jurusan.update');
     Route::delete('/dashboard/setting/jurusan/{id}/delete', [SettingController::class, 'destroyJurusan'])->name('jurusan.destroy');
-    
+
     Route::post('/dashboard/setting/mata_kuliah', [SettingController::class, 'storeMataKuliah'])->name('mata_kuliah.store');
     Route::put('/dashboard/setting/mata_kuliah/{id}', [SettingController::class, 'updateMataKuliah'])->name('mata_kuliah.update');
     Route::delete('/dashboard/setting/mata_kuliah/{id}/delete', [SettingController::class, 'destroyMataKuliah'])->name('mata_kuliah.destroy');

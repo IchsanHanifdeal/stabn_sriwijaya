@@ -34,9 +34,35 @@ class MahasiswaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function terima($id_user)
     {
-        //
+        $user = User::findOrFail($id_user);
+
+        if ($user->role === 'mahasiswa') {
+            $user->validasi = 'diterima';
+            $user->save();
+
+            return redirect()->back()->with('toast', ['message' => 'Mahasiswa berhasil diterima!', 'type' => 'success']);
+        }
+
+        return redirect()->back()->with('toast', ['message' => 'Pengguna bukan mahasiswa!', 'type' => 'error']);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function tolak($id_user)
+    {
+        $user = User::findOrFail($id_user);
+
+        if ($user->role === 'mahasiswa') {
+            $user->validasi = 'ditolak';
+            $user->save();
+
+            return redirect()->back()->with('toast', ['message' => 'Mahasiswa berhasil ditolak!', 'type' => 'success']);
+        }
+
+        return redirect()->back()->with('toast', ['message' => 'Pengguna bukan mahasiswa!', 'type' => 'error']);
     }
 
     /**

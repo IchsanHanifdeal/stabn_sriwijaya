@@ -1,32 +1,32 @@
-<x-dashboard.main title="Mahasiswa">
+<x-dashboard.main title="Dosen">
     <div class="grid gap-5 md:gap-6">
         <div class="flex items-center px-4 py-3 bg-white border rounded-xl shadow-sm">
             <span class="bg-blue-300 p-3 mr-4 text-gray-700 rounded-full"></span>
             <p class="text-sm font-medium capitalize text-gray-600">
-                Jumlah Mahasiswa
+                Jumlah dosen
             </p>
-            <span class="ml-auto text-right">{{ $jumlah_mahasiswa ?? '0' }}</span>
+            <span class="ml-auto text-right">{{ $jumlah_dosen ?? '0' }}</span>
         </div>
     </div>
     <div class="grid sm:grid-cols-2 xl:grid-cols-2 gap-5 md:gap-6">
-        @foreach (['mahasiswa_terbaru', 'waktu_daftar', 'jumlah_mahasiswa_laki-laki', 'jumlah_mahasiswa_perempuan'] as $type)
+        @foreach (['dosen_terbaru', 'waktu_daftar', 'jumlah_dosen_laki-laki', 'jumlah_dosen_perempuan'] as $type)
             <div class="flex items-center px-4 py-3 bg-white border rounded-xl shadow-sm">
                 <span
                     class="
-                    {{ $type == 'mahasiswa_terbaru' ? 'bg-blue-300' : '' }}
+                    {{ $type == 'dosen_terbaru' ? 'bg-blue-300' : '' }}
                     {{ $type == 'waktu_daftar' ? 'bg-green-300' : '' }}
-                    {{ $type == 'jumlah_mahasiswa_laki-laki' ? 'bg-amber-300' : '' }}
-                    {{ $type == 'jumlah_mahasiswa_perempuan' ? 'bg-rose-300' : '' }}
+                    {{ $type == 'jumlah_dosen_laki-laki' ? 'bg-amber-300' : '' }}
+                    {{ $type == 'jumlah_dosen_perempuan' ? 'bg-rose-300' : '' }}
                     p-3 mr-4 text-gray-700 rounded-full"></span>
                 <div>
                     <p class="text-sm font-medium capitalize text-gray-600">
                         {{ str_replace('_', ' ', $type) }}
                     </p>
                     <p id="{{ $type }}" class="text-lg font-semibold text-gray-700">
-                        {{ $type == 'mahasiswa_terbaru' ? $mahasiswa_terbaru ?? '-' : '' }}
+                        {{ $type == 'dosen_terbaru' ? $dosen_terbaru ?? '-' : '' }}
                         {{ $type == 'waktu_daftar' ? $waktu_daftar ?? '-' : '' }}
-                        {{ $type == 'jumlah_mahasiswa_laki-laki' ? $jumlah_mahasiswa_laki ?? '0' : '' }}
-                        {{ $type == 'jumlah_mahasiswa_perempuan' ? $jumlah_mahasiswa_perempuan ?? '0' : '' }}
+                        {{ $type == 'jumlah_dosen_laki-laki' ? $jumlah_dosen_laki ?? '0' : '' }}
+                        {{ $type == 'jumlah_dosen_perempuan' ? $jumlah_dosen_perempuan ?? '0' : '' }}
                     </p>
                 </div>
             </div>
@@ -36,10 +36,10 @@
         <div class="flex flex-col border-back rounded-xl w-full">
             <div class="p-5 sm:p-7 bg-white rounded-t-xl">
                 <h1 class="flex items-start gap-3 font-semibold font-[onest] text-lg capitalize">
-                    Daftar Mahasiswa
+                    Daftar dosen
                 </h1>
                 <p class="text-sm opacity-60">
-                    Ketahui siapa saja mahasiswa yang sudah mendaftar.
+                    Ketahui siapa saja dosen yang sudah mendaftar.
                 </p>
             </div>
             <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
@@ -47,19 +47,17 @@
                     <table class="table table-zebra">
                         <thead>
                             <tr>
-                                @foreach (['No', 'Nim', 'Nama', 'Jurusan', 'Jenis Kelamin', 'Tempat/Tanggal Lahir', 'Alamat', 'No HP', 'validasi'] as $header)
+                                @foreach (['No', 'Nip', 'Nama', 'Jurusan', 'Jenis Kelamin', 'Tempat/Tanggal Lahir', 'Alamat', 'No HP', 'validasi'] as $header)
                                     <th class="uppercase font-bold">{{ $header }}</th>
                                 @endforeach
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($mahasiswa as $i => $item)
+                            @forelse ($dosen as $i => $item)
                                 <tr>
                                     <th>{{ $i + 1 }}</th>
-                                    <td class="font-semibold">{{ $item->nim }}</td>
+                                    <td class="font-semibold">{{ $item->nip }}</td>
                                     <td class="font-semibold uppercase">{{ $item->name }}</td>
-                                    <td class="font-semibold uppercase">{{ $item->jurusan->kode_jurusan }} -
-                                        {{ $item->jurusan->nama_jurusan }}</td>
                                     <td class="font-semibold uppercase">
                                         @if ($item->jenis_kelamin === 'L')
                                             Laki-laki
@@ -81,10 +79,10 @@
                                             <dialog id="delete_modal_{{ $item->id_user }}"
                                                 class="modal modal-bottom sm:modal-middle">
                                                 <div class="modal-box bg-neutral text-white">
-                                                    <h3 class="text-lg font-bold">Hapus mahasiswa <strong
+                                                    <h3 class="text-lg font-bold">Hapus dosen <strong
                                                             class="text-red-500">{{ $item->name }}</strong></h3>
                                                     <div class="mt-3">
-                                                        <p>Apakah Anda yakin ingin menghapus mahasiswa dengan nama
+                                                        <p>Apakah Anda yakin ingin menghapus dosen dengan nama
                                                             <strong class="text-red-500">{{ $item->name }}</strong>?.
                                                         </p>
                                                     </div>
@@ -93,7 +91,7 @@
                                                             onclick="document.getElementById('delete_modal_{{ $item->id_user }}').close()"
                                                             class="btn">Batal</button>
                                                         <form
-                                                            action="{{ route('destroy.mahasiswa', ['id_user' => $item->id_user]) }}"
+                                                            action="{{ route('destroy.dosen', ['id_user' => $item->id_user]) }}"
                                                             method="POST" class="inline-block">
                                                             @csrf
                                                             @method('DELETE')
@@ -114,7 +112,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">Tidak ada data mahasiswa</td>
+                                    <td colspan="8" class="text-center">Tidak ada data dosen</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -124,20 +122,20 @@
         </div>
     </div>
 
-    @foreach ($mahasiswa as $i => $pe)
+    @foreach ($dosen as $i => $pe)
         @foreach (['terima', 'tolak'] as $action)
             <dialog id="{{ $action }}_modal_{{ $pe->id_user }}" class="modal modal-bottom sm:modal-middle">
-                <form action="{{ route($action . '_' . 'mahasiswa', ['id_user' => $pe->id_user]) }}" method="POST"
+                <form action="{{ route($action . '_' . 'dosen', ['id_user' => $pe->id_user]) }}" method="POST"
                     class="modal-box bg-neutral p-6 rounded-lg shadow-lg">
                     @csrf
                     @method('PUT')
                     <h3 class="text-xl font-bold mb-4 text-white capitalize">
-                        {{ ucfirst($action) }} Validasi Pendaftaran Mahasiswa
+                        {{ ucfirst($action) }} Validasi Pendaftaran dosen
                     </h3>
                     <div class="mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
                         <p class="text-base font-medium">
-                            <strong>Perhatian!</strong> Anda akan {{ $action }} validasi pendaftaran mahasiswa
-                            dengan NIM <span class="font-semibold">{{ $pe->nim }}</span> dan nama
+                            <strong>Perhatian!</strong> Anda akan {{ $action }} validasi pendaftaran dosen
+                            dengan NIP <span class="font-semibold">{{ $pe->nip }}</span> dan nama
                             <span class="font-semibold">{{ $pe->name }}</span>.
                             Apakah Anda yakin ingin melanjutkan?
                         </p>
