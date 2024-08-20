@@ -137,7 +137,6 @@ class AuthController extends Controller
                 'nama' => 'required|string|max:255',
                 'username' => 'required|string|max:255|unique:users',
                 'email' => 'required|string|email|max:255|unique:users',
-                'jurusan' => 'required',
                 'password' => 'required|string|min:8',
             ], [
                 'nip.unique' => 'NIP sudah digunakan, silakan gunakan NIP lain.',
@@ -167,7 +166,7 @@ class AuthController extends Controller
 
             $dosen = Dosen::create([
                 'id_user' => $userID,
-                'nio' => $request->nip,
+                'nip' => $request->nip,
                 'name' => $request->nama,
                 'username' => $request->username,
                 'email' => $request->email,

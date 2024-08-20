@@ -47,7 +47,7 @@
                     <table class="table table-zebra">
                         <thead>
                             <tr>
-                                @foreach (['No', 'Nip', 'Nama', 'Jurusan', 'Jenis Kelamin', 'Tempat/Tanggal Lahir', 'Alamat', 'No HP', 'validasi'] as $header)
+                                @foreach (['No', 'Nip', 'Nama', 'validasi'] as $header)
                                     <th class="uppercase font-bold">{{ $header }}</th>
                                 @endforeach
                             </tr>
@@ -58,19 +58,6 @@
                                     <th>{{ $i + 1 }}</th>
                                     <td class="font-semibold">{{ $item->nip }}</td>
                                     <td class="font-semibold uppercase">{{ $item->name }}</td>
-                                    <td class="font-semibold uppercase">
-                                        @if ($item->jenis_kelamin === 'L')
-                                            Laki-laki
-                                        @elseif($item->jenis_kelamin === 'P')
-                                            Perempuan
-                                        @else
-                                            Undefined
-                                        @endif
-                                    </td>
-                                    <td class="font-semibold uppercase">
-                                        {{ $item->tempat_lahir }}/{{ $item->tanggal_lahir }}</td>
-                                    <td class="font-semibold uppercase">{{ $item->alamat }}</td>
-                                    <td class="font-semibold uppercase">{{ $item->no_hp }}</td>
                                     <td class="font-semibold uppercase">{{ $item->user->validasi }}</td>
                                     <td class="flex items-center gap-4">
                                         @if ($item->user->validasi === 'diterima' || $item->user->validasi === 'ditolak')
