@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MataKuliah;
 use App\Models\Materi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,10 +14,19 @@ class MateriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $selectedMataKuliah = $request->query('mata_kuliah');
+
+        if ($selectedMataKuliah) {
+            $materi = Materi::where('id_matakuliah', $selectedMataKuliah)->get();
+        } else {
+            $materi = Materi::all();
+        }
+
         return view('dashboard.materi', [
-            'materi' => Materi::all(),
+            'matakuliah' => MataKuliah::all(),
+            'materi' => $materi,
             'jumlah_materi' => Materi::count(),
             'materi_terbaru' => Materi::orderBy('created_at', 'desc')->first(),
         ]);
@@ -39,6 +49,7 @@ class MateriController extends Controller
             'pertemuan' => 'required|integer|min:1|max:16',
             'judul_materi' => 'required|string|max:255',
             'deskripsi' => 'required|string',
+            'id_matakuliah' => 'required|string',
             'file_materi' => 'nullable|file|mimes:jpg,jpeg,png,pdf,mp4|max:20480',
             'tipe_file' => 'required|string|in:gambar,dokumen,video',
         ], [
@@ -76,6 +87,7 @@ class MateriController extends Controller
                 'judul_materi' => $validatedData['judul_materi'],
                 'deskripsi' => $validatedData['deskripsi'],
                 'tipe_materi' => $validatedData['tipe_file'],
+                'id_matakuliah' => $validatedData['id_matakuliah'],
                 'file_materi' => null,
             ]);
 

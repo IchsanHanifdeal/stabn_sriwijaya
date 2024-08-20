@@ -48,12 +48,35 @@
                         Jelajahi dan tambahkan pembelajaran baru.
                     </p>
                 </div>
+                <div class="w-full px-5 sm:px-7 bg-zinc-50">
+                    <form action="{{ route('pembelajaran') }}" method="GET"
+                        class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <div class="flex-grow">
+                            <select id="mata_kuliah" name="mata_kuliah"
+                                class="input input-sm shadow-md w-full bg-zinc-100">
+                                <option value="">--- Filter Berdasarkan Mata Kuliah ---</option>
+                                @forelse ($matakuliah as $matkul)
+                                    <option value="{{ $matkul->id_matakuliah }}"
+                                        {{ request('mata_kuliah') == $matkul->id_matakuliah ? 'selected' : '' }}>
+                                        {{ $matkul->mata_kuliah }}
+                                    </option>
+                                @empty
+                                    <option value="">Tidak ada mata kuliah terdaftar</option>
+                                @endforelse
+                            </select>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
+                    </form>
+                </div>
                 <div class="flex flex-col bg-zinc-50 rounded-b-xl gap-3 divide-y pt-0 p-5 sm:p-7">
                     <div class="overflow-x-auto">
                         <table class="table table-zebra">
                             <thead>
                                 <tr>
-                                    @foreach (['No', 'Nama Pembelajaran', 'Deskripsi', 'pertemuan'] as $item)
+                                    @foreach (['No', 'Nama Pembelajaran', 'Deskripsi', 'pertemuan', 'mata kuliah'] as $item)
                                         <th class="uppercase font-bold">{{ $item }}</th>
                                     @endforeach
                                 </tr>
@@ -65,6 +88,7 @@
                                         <td class="font-semibold uppercase">{{ $item->nama_silabus }}</td>
                                         <td class="font-semibold">{{ $item->deskripsi }}</td>
                                         <td class="font-semibold uppercase">Pertemuan {{ $item->pertemuan }}</td>
+                                        <td class="font-semibold uppercase">{{ $item->matakuliah->mata_kuliah }}</td>
                                         <td class="flex items-center gap-4">
                                             <x-lucide-scan-eye class="size-5 hover:stroke-green-500 cursor-pointer"
                                                 onclick="document.getElementById('preview_modal_{{ $item->id_silabus }}').showModal();" />
@@ -130,6 +154,19 @@
                                                                         @endfor
                                                                     </select>
                                                                 </div>
+
+                                                                <div>
+                                                                    <label for="mata_kuliah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mata Kuliah</label>
+                                                                    <select id="mata_kuliah" name="id_matakuliah"
+                                                                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                                        <option value="">--- Pilih Mata Kuliah ---</option>
+                                                                        @foreach ($matakuliah as $mk)
+                                                                            <option value="{{ $mk->id_matakuliah }}" {{ $item->id_matakuliah == $mk->id_matakuliah ? 'selected' : '' }}>
+                                                                                {{ $mk->mata_kuliah }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>                                                                
 
                                                                 <!-- File Silabus -->
                                                                 <div>
@@ -227,7 +264,6 @@
                                                     </div>
                                                 </dialog>
 
-
                                                 <x-lucide-trash class="size-5 hover:stroke-red-500 cursor-pointer"
                                                     onclick="document.getElementById('delete_modal_{{ $item->id_silabus }}').showModal();" />
                                                 <dialog id="delete_modal_{{ $item->id_silabus }}"
@@ -262,7 +298,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center">Tidak ada pembelajaran</td>
+                                        <td colspan="5" class="text-center">Tidak ada pembelajaran</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -295,6 +331,18 @@
                         @for ($i = 1; $i <= 16; $i++)
                             <option value="{{ $i }}">Pertemuan {{ $i }}</option>
                         @endfor
+                    </select>
+                </div>
+
+                <div>
+                    <label for="mata_kuliah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mata
+                        Kuliah</label>
+                    <select id="mata_kuliah" name="id_matakuliah"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="">--- Pilih Mata Kuliah ---</option>
+                        @foreach ($matakuliah as $mk)
+                            <option value="{{ $mk->id_matakuliah}}">{{ $mk->mata_kuliah }}</option>
+                        @endforeach
                     </select>
                 </div>
 

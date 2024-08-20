@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MataKuliah;
 use App\Models\Silabus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +13,20 @@ class PembelajaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $selectedMataKuliah = $request->query('mata_kuliah');
+
+        if ($selectedMataKuliah) {
+            $pembelajaran = Silabus::where('id_matakuliah', $selectedMataKuliah)->get();
+        } else {
+            $pembelajaran = Silabus::all();
+        }
+
         return view('dashboard.pembelajaran', [
-            'pembelajaran' => Silabus::all(),
+            'matakuliah' => MataKuliah::all(),
+            'pembelajaran' => $pembelajaran,
             'jumlah_pembelajaran' => Silabus::count(),
             'pembelajaran_terbaru' => Silabus::orderBy('created_at', 'desc')->first(),
         ]);
@@ -40,6 +51,7 @@ class PembelajaranController extends Controller
             'deskripsi' => 'required',
             'file_silabus' => 'nullable|file',
             'tipe_file' => 'required',
+            'id_matakuliah' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +65,7 @@ class PembelajaranController extends Controller
             'nama_silabus' => $validatedData['nama_silabus'],
             'deskripsi' => $validatedData['deskripsi'],
             'tipe_file' => $validatedData['tipe_file'],
+            'id_matakuliah' => $validatedData['id_matakuliah'],
             'file_silabus' => null,
         ]);
 
@@ -104,6 +117,7 @@ class PembelajaranController extends Controller
             'deskripsi' => 'required',
             'file_silabus' => 'nullable|file',
             'tipe_file' => 'required',
+            'id_matakuliah' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -119,6 +133,7 @@ class PembelajaranController extends Controller
             'nama_silabus' => $validatedData['nama_silabus'],
             'deskripsi' => $validatedData['deskripsi'],
             'tipe_file' => $validatedData['tipe_file'],
+            'id_matakuliah' => $validatedData['id_matakuliah'],
         ]);
 
         if ($request->hasFile('file_silabus')) {
